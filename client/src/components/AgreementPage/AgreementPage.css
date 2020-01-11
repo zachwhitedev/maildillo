@@ -1,0 +1,24 @@
+#pledge-to-band {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 2;
+    background: white;
+    width: 100%;
+    height: 100%;
+}
+
+#pledge-words-container{
+    width: 300px;
+    margin: 0 auto;
+    padding-left: 20px;
+}
+
+@media(max-width: 560px){
+    #pledge-to-band{
+        top: 50px;
+
+}}

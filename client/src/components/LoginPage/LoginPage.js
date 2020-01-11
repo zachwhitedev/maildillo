@@ -1,6 +1,9 @@
 import React, { setState } from 'react';
+import { Link } from 'react-router-dom';
+import armadillo from '../../assets/armadillo.png';
 import './LoginPage.css';
 import axios from 'axios';
+
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
 class NormalLoginForm extends React.Component {
@@ -87,7 +90,7 @@ class NormalLoginForm extends React.Component {
           >
             Log in
           </Button>
-          Or <a href=''>register now!</a>
+          Or <Link to='/register'>register now!</Link>
         </Form.Item>
       </Form>
     );
@@ -101,7 +104,10 @@ const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(
 export default function LoginPage() {
   return (
     <div id='loginpage-container'>
+      <img src={armadillo} alt='armadillo icon' id='armadillo-icon'/>
+      <h4 id='login-slug'>Schedule emails in your browser.</h4>
       <WrappedNormalLoginForm />
+     <span id='asiteby'>a service by <a href='https://www.zachwhite.dev/' target='_blank'>Zach White</a></span>
     </div>
   );
 }
