@@ -25,7 +25,7 @@ class NormalLoginForm extends React.Component {
         };
         axios
           .post('/login', user)
-          // .then(res => 
+          // .then(res =>
           //   this.setState({
           //   email: res.data.email,
           //   message: res.data.message
@@ -98,10 +98,15 @@ const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(
 export default function LoginPage() {
   return (
     <div id='loginpage-container'>
-      <img src={armadillo} alt='armadillo icon' id='armadillo-icon'/>
+      <img src={armadillo} alt='armadillo icon' id='armadillo-icon' />
       <h4 id='login-slug'>Schedule emails in your browser.</h4>
       <WrappedNormalLoginForm />
-     <span id='asiteby'>a service by <a href='https://www.zachwhite.dev/' target='_blank'>Zach White</a></span>
+      <span id='asiteby'>
+        a service by{' '}
+        <a href='https://www.zachwhite.dev/' target='_blank'>
+          Zach White
+        </a>
+      </span>
     </div>
   );
 }
