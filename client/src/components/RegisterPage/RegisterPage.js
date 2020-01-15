@@ -20,7 +20,11 @@ class RegistrationForm extends React.Component {
     confirmDirty: false,
     autoCompleteResult: [],
     showAgreement: false,
+    email: '',
+    password: ''
   };
+
+  ////////////////// fun zone //////////////////////
 
   handleSubmit = e => {
     e.preventDefault();
@@ -29,7 +33,20 @@ class RegistrationForm extends React.Component {
         console.log('Received values of form: ', values);
       }
     });
+    const user = {
+      email: this.state.email,
+      password: this.state.password,
+    }
+    axios
+      .post('http://localhost:5000/register', user)
+      .then(console.log('User posted successfully.'))
   };
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  /////////////////////////////////////////
 
   hideAgreement = () => {
     this.setState({ showAgreement: false })
@@ -109,7 +126,7 @@ class RegistrationForm extends React.Component {
                 message: 'Please input your E-mail!',
               },
             ],
-          })(<Input />)}
+          })(<Input onChange={this.onChange} name='email'/>)}
         </Form.Item>
         <Form.Item label="Password" hasFeedback>
           {getFieldDecorator('password', {
@@ -122,9 +139,9 @@ class RegistrationForm extends React.Component {
                 validator: this.validateToNextPassword,
               },
             ],
-          })(<Input.Password />)}
+          })(<Input.Password onChange={this.onChange} name='password'/>)}
         </Form.Item>
-        <Form.Item label="Confirm Password" hasFeedback>
+        <Form.Item label="Confirm Password">
           {getFieldDecorator('confirm', {
             rules: [
               {
@@ -135,7 +152,7 @@ class RegistrationForm extends React.Component {
                 validator: this.compareToFirstPassword,
               },
             ],
-          })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+          })(<Input.Password onBlur={this.handleConfirmBlur}/>)}
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           {getFieldDecorator('agreement', {

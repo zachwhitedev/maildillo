@@ -18,21 +18,19 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const { email, password } = this.state;
         const user = {
           email,
           password
         };
         axios
-          .post('/api/auth', user)
-          .then(res => res.data)
-          .then(
-            this.setState({
-              email: '',
-              message: ''
-            })
-          )
+          .post('/login', user)
+          // .then(res => 
+          //   this.setState({
+          //   email: res.data.email,
+          //   message: res.data.message
+          // }))
+          .then(res => console.log('Check it out: ' + res.data))
           .catch(err => console.log(err));
       }
     });
@@ -41,10 +39,6 @@ class NormalLoginForm extends React.Component {
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-
-  componentDidUpdate() {
-    console.log(this.state);
-  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
