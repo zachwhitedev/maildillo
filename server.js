@@ -5,6 +5,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 
 const verifyUser = require('./routes/verifyToken');
 
@@ -13,12 +14,13 @@ dotenv.config();
 const uri = process.env.MONGODB_URI;
 
 // Bodyparser Middleware
-app.use(express.json());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-//Cors Middleare
 app.use(cors());
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 
 // Connect to MongoDB
 mongoose
@@ -49,50 +51,88 @@ app.delete('/deleteallusers', (req, res) => {
   User.deleteMany({}).then(res.send('all users delete. database empty'));
 });
 
-app.get('/dashboard', verifyUser, (req, res) => {
-  res.redirect('http://localhost:3000/login');
-})
+app.post('/register', (req, res) => {
+  const today = new Date();
+
+  const userData = {
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    email: req.body.email,
+    password: req.body.password,
+    created: today
+  };
+
+  User.findOne({
+    email: req.body.email
+  })
+    .then(user => {
+      if (!user) {
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+          userData.password = hash;
+          User.create(userData)
+            .then(user => {
+              res.json({ status: user.email + ' registered!' });
+            })
+            .catch(err => {
+              res.send('error:' + err);
+            });
+        });
+      } else {
+        res.json({ error: 'User already exists.' });
+      }
+    })
+    .catch(err => {
+      res.send('error:' + err);
+    });
+});
 
 app.post('/login', async (req, res) => {
-  let userData = req.body;
-  const user = await User.findOne({ email: userData.email });
-  if (!user) return res.status(400).send('Email or password is wrong.');
-  if (user.password !== userData.password)
-    return res.status(400).send('Email or password is wrong.');
-
-  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-  res.header('auth-token', token).send(token);
-});
-
-app.post('/register', async (req, res) => {
-  let userData = req.body;
-  const emailAlreadyExists = await User.findOne({ email: userData.email });
-  if (emailAlreadyExists) return res.status(400).send('Email already exists.');
-
-  const user = new User({
-    name: { first: userData.firstname, last: userData.lastname },
-    email: userData.email,
-    password: userData.password,
-    messages: [
-      {
-        to: userData.email,
-        from: userData.email,
-        subject: 'Your first scheduled email!',
-        body:
-          "Hey me, it's me. Just testing to see if this Maildillo thing actually works.",
-        active: true,
-        created: Date.now(),
-        execute: Date.now()
+  User.findOne({
+    email: req.body.email
+  }).then(user => {
+    if (user) {
+      if (bcrypt.compareSync(req.body.password, user.password)) {
+        const payload = {
+          _id: user._id,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          email: user.email
+        };
+        let token = jwt.sign(payload, process.env.JWT_SECRET, {
+          expiresIn: '30m'
+        });
+        res.send(token);
+      } else {
+        res.json({ error: 'Invalid login credentials.' });
       }
-    ]
-  });
-  try {
-    const savedUser = await user.save();
-    res.send(savedUser);
-  } catch (err) {
-    res.status(400).send(err);
-  }
+    } else {
+      res.json({ error: 'User does not exist.' });
+    }
+  })
+  .catch(err => {
+      res.send('error: ' + err)
+  })
 });
+
+app.get('/profile', (req, res) => {
+  let decoded = jwt.verify(req.headers['authorization'], process.env.JWT_SECRET)
+
+  User.findOne({
+      _id: decoded._id
+  })
+  .then(user => {
+      if(user){
+          res.json(user)
+      } else {
+          res.send('User does not exist.')
+      }
+  })
+  .catch(err => {
+      res.send('error: ' + err)
+  })
+})
+
+
 
 // Serve static assests if in production
 if (process.env.NODE_ENV === 'production') {

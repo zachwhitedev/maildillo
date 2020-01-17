@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import AgreementPage from './components/AgreementPage/AgreementPage';
-import Dashboard from './components/Dashboard/Dashboard';
+import Profile from './components/Profile/Profile';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,15 +13,17 @@ import './App.css';
 
 function App() {
   const [state, setState] = useState({
-    isAuthenicated: false
+    isAuthenticated: false
   });
 
-  const toggleAuthenticated = () => {
-    setState({
-      ...state,
-      isAuthenicated: !state.isAuthenicated
-    })
+  const updateAppState = (newState) => {
+    setState(newState)
   }
+
+  useEffect(() => {
+    console.log(state)
+  })
+
 
   return (
     <Router>
@@ -32,8 +33,8 @@ function App() {
             path='/'
             exact
             render={() => {
-              if (state.isAuthenicated) {
-                return <Dashboard />;
+              if (state.isAuthenticated) {
+                return <Profile />;
               } else {
                 return (
                   <Redirect
@@ -45,53 +46,13 @@ function App() {
               }
             }}
           ></Route>
-          <Route
-            path='/login'
-            exact
-            render={() => {
-              if (state.isAuthenicated) {
-                return <Redirect
-                to={{
-                  pathname: '/dashboard'
-                }}
-              />
-              } else {
-                return <LoginPage toggleAuthenticated={toggleAuthenticated}/>
-              }
-            }}
-          ></Route>
-          <Route
-            path='/register'
-            exact
-            render={() => {
-              if (state.isAuthenicated) {
-                return <Redirect
-                to={{
-                  pathname: '/dashboard'
-                }}
-              />
-              } else {
-                return <RegisterPage />
-              }
-            }}
-          ></Route>
-          <Route
-            path='/dashboard'
-            exact
-            render={() => {
-              if (state.isAuthenicated) {
-                return <Dashboard />;
-              } else {
-                return (
-                  <Redirect
-                    to={{
-                      pathname: '/login'
-                    }}
-                  />
-                );
-              }
-            }}
-          ></Route>
+          <div className='container'>
+            <Route exact path='/register' component={RegisterPage} />
+            <Route path='/login' exact>
+              <LoginPage updateAppState={updateAppState}/>
+            </Route>
+            <Route exact path='/profile' component={Profile} />
+          </div>
         </Switch>
       </div>
     </Router>

@@ -1,5 +1,5 @@
 import React, { setState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import armadillo from '../../assets/armadillo.png';
 import './LoginPage.css';
 import axios from 'axios';
@@ -11,36 +11,57 @@ class NormalLoginForm extends React.Component {
     modal: false,
     email: '',
     password: '',
-    msg: null
+    msg: null,
+    redirect: false
   };
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { email, password } = this.state;
         const user = {
-          email,
-          password
+          email: this.state.email,
+          password: this.state.password
         };
         axios
           .post('/login', user)
-          // .then(res =>
-          //   this.setState({
-          //   email: res.data.email,
-          //   message: res.data.message
-          // }))
-          .then(res => console.log('Check it out: ' + res.data))
-          .catch(err => console.log(err));
+          .then(response => {
+            if(response.data.error){
+              this.setState({ msg: response.data.error})
+            } else {
+              console.log(response);
+              localStorage.setItem('usertoken', response.data);
+              this.props.updateAppState({
+                isAuthenticated: true
+              })
+              this.setState({ redirect: true })
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
-    });
-  };
+    })
+  }
+
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+    this.setState({ msg: null })
   };
 
   render() {
+    let checktoken = localStorage.getItem('usertoken');
+    if(checktoken === null){
+      console.log('no token');
+    } else {
+      return <Redirect to='/profile'/>
+    }
+
+    const { redirect } = this.state;
+    if(redirect){
+      return <Redirect to='/profile'/>
+    }
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className='login-form'>
@@ -69,6 +90,7 @@ class NormalLoginForm extends React.Component {
             />
           )}
         </Form.Item>
+          <p style={{ color: 'red' }}>{this.state.msg}</p>
         <Form.Item>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
@@ -95,12 +117,12 @@ const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(
   NormalLoginForm
 );
 
-export default function LoginPage() {
+export default function LoginPage(props) {
   return (
     <div id='loginpage-container'>
       <img src={armadillo} alt='armadillo icon' id='armadillo-icon' />
       <h4 id='login-slug'>Schedule emails in your browser.</h4>
-      <WrappedNormalLoginForm />
+      <WrappedNormalLoginForm updateAppState={props.updateAppState}/>
       <span id='asiteby'>
         a service by{' '}
         <a href='https://www.zachwhite.dev/' target='_blank'>
