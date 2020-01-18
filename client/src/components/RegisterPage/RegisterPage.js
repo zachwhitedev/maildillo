@@ -35,13 +35,13 @@ class RegistrationForm extends React.Component {
         axios
           .post('/register', user)
           .then(res => {
-            if(res.data.error){
+            if (res.data.error) {
               this.setState({
                 msg: res.data.error
-              })
+              });
             } else {
               console.log(res);
-              this.setState({ redirect: true })
+              this.setState({ redirect: true });
             }
           })
           .catch(err => {
@@ -170,7 +170,7 @@ class RegistrationForm extends React.Component {
               }
             ]
           })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-        <p style={{ color: 'red' }}>{this.state.msg}</p>
+          <span style={{ color: 'red' }}>{this.state.msg}</span>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           {getFieldDecorator('agreement', {

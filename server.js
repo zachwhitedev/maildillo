@@ -89,50 +89,64 @@ app.post('/register', (req, res) => {
 app.post('/login', async (req, res) => {
   User.findOne({
     email: req.body.email
-  }).then(user => {
-    if (user) {
-      if (bcrypt.compareSync(req.body.password, user.password)) {
-        const payload = {
-          _id: user._id,
-          firstname: user.firstname,
-          lastname: user.lastname,
-          email: user.email
-        };
-        let token = jwt.sign(payload, process.env.JWT_SECRET, {
-          expiresIn: '30m'
-        });
-        res.send(token);
+  })
+    .then(user => {
+      if (user) {
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+          const payload = {
+            _id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email
+          };
+          let token = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: '30m'
+          });
+          res.send(token);
+        } else {
+          res.json({ error: 'Invalid login credentials.' });
+        }
       } else {
-        res.json({ error: 'Invalid login credentials.' });
+        res.json({ error: 'User does not exist.' });
       }
-    } else {
-      res.json({ error: 'User does not exist.' });
-    }
-  })
-  .catch(err => {
-      res.send('error: ' + err)
-  })
+    })
+    .catch(err => {
+      res.send('error: ' + err);
+    });
 });
 
 app.get('/profile', (req, res) => {
-  let decoded = jwt.verify(req.headers['authorization'], process.env.JWT_SECRET)
+  let decoded = jwt.verify(
+    req.headers['authorization'],
+    process.env.JWT_SECRET
+  );
 
   User.findOne({
-      _id: decoded._id
+    _id: decoded._id
   })
-  .then(user => {
-      if(user){
-          res.json(user)
+    .then(user => {
+      if (user) {
+        res.json(user);
       } else {
-          res.send('User does not exist.')
+        res.send('User does not exist.');
       }
-  })
-  .catch(err => {
-      res.send('error: ' + err)
-  })
-})
+    })
+    .catch(err => {
+      res.send('error: ' + err);
+    });
+});
 
-
+app.get('/test', (req, res) => {
+  User.find({})
+    .stream()
+    .on('data', doc => {
+      console.log(doc.email + ',');
+    })
+    .on('close', () => {
+      console.log('all done.');
+      res.send('All done.');
+    });
+});
 
 // Serve static assests if in production
 if (process.env.NODE_ENV === 'production') {

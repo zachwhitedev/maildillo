@@ -1,0 +1,13 @@
+#profile-logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.profile-container {
+    display: block;
+    width: 300px;
+    height: 60px;
+    margin: 80px auto 0 auto;
+    border: 1px solid red;
+}

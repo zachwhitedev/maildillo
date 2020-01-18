@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
+import { Row, Col, Button } from 'antd';
 import jwt_decode from 'jwt-decode';
+import './Profile.css';
 
 class Profile extends Component {
   constructor() {
@@ -44,8 +46,8 @@ class Profile extends Component {
     }
     if (this.state.email) {
       return (
-        <div className='container'>
-          <button onClick={this.logout}>Logout</button>
+        <div className='profile-container'>
+          <Button id="profile-logout-btn" onClick={this.logout}>Logout</Button>
           <div className='jumbotron mt-5'>
             <div className='col-sm-8 mx-auto'>
               <h1 className='text-center'>PROFILE</h1>

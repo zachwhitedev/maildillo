@@ -26,41 +26,40 @@ class NormalLoginForm extends React.Component {
         axios
           .post('/login', user)
           .then(response => {
-            if(response.data.error){
-              this.setState({ msg: response.data.error})
+            if (response.data.error) {
+              this.setState({ msg: response.data.error });
             } else {
               console.log(response);
               localStorage.setItem('usertoken', response.data);
               this.props.updateAppState({
                 isAuthenticated: true
-              })
-              this.setState({ redirect: true })
+              });
+              this.setState({ redirect: true });
             }
           })
           .catch(err => {
             console.log(err);
           });
       }
-    })
-  }
-
+    });
+  };
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-    this.setState({ msg: null })
+    this.setState({ msg: null });
   };
 
   render() {
     let checktoken = localStorage.getItem('usertoken');
-    if(checktoken === null){
+    if (checktoken === null) {
       console.log('no token');
     } else {
-      return <Redirect to='/profile'/>
+      return <Redirect to='/profile' />;
     }
 
     const { redirect } = this.state;
-    if(redirect){
-      return <Redirect to='/profile'/>
+    if (redirect) {
+      return <Redirect to='/profile' />;
     }
     const { getFieldDecorator } = this.props.form;
     return (
@@ -90,7 +89,7 @@ class NormalLoginForm extends React.Component {
             />
           )}
         </Form.Item>
-          <p style={{ color: 'red' }}>{this.state.msg}</p>
+        <span style={{ color: 'red' }}>{this.state.msg}</span>
         <Form.Item>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
@@ -122,7 +121,7 @@ export default function LoginPage(props) {
     <div id='loginpage-container'>
       <img src={armadillo} alt='armadillo icon' id='armadillo-icon' />
       <h4 id='login-slug'>Schedule emails in your browser.</h4>
-      <WrappedNormalLoginForm updateAppState={props.updateAppState}/>
+      <WrappedNormalLoginForm updateAppState={props.updateAppState} />
       <span id='asiteby'>
         a service by{' '}
         <a href='https://www.zachwhite.dev/' target='_blank'>

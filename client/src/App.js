@@ -13,16 +13,51 @@ import './App.css';
 
 function App() {
   const [state, setState] = useState({
-    isAuthenticated: false
+    isAuthenticated: false,
+    emails: []
   });
 
   const updateAppState = (newState) => {
     setState(newState)
   }
 
-  useEffect(() => {
-    console.log(state)
-  })
+  const addEmail = (newEmail) =>  {
+    let oldList = state.emails;
+    let newList = oldList.concat([newEmail])
+    setState({
+      emails: newList
+    })
+  }
+
+  const deleteEmail = (id) => {
+      let newList = state.emails.filter(email => email.id!==id)
+      setState({
+        emails: newList
+        })
+  };
+
+  const editEmail = (id) => {
+    let newList = state.emails.map(email => {
+      if(email.id === id){
+        email.edit = true;
+      }
+      return email;
+    });
+    setState({emails: newList})
+
+  }
+
+  const saveEmail = (id, newName, newColor) => {
+    let newList = state.emails.map(email => {
+      if(email.id === id){
+        email.description = newName;
+        email.color = newColor;
+        email.edit = false;      
+      }
+      return email;
+    });
+    setState({emails: newList})
+  }
 
 
   return (
@@ -51,7 +86,9 @@ function App() {
             <Route path='/login' exact>
               <LoginPage updateAppState={updateAppState}/>
             </Route>
-            <Route exact path='/profile' component={Profile} />
+            <Route path='/profile' exact>
+              <Profile addEmail={addEmail} editEmail={editEmail} saveEmail={saveEmail} deleteEmail={deleteEmail}/>
+            </Route>
           </div>
         </Switch>
       </div>
