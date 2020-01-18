@@ -23,7 +23,6 @@ export default function EmailList (props) {
           <EmailItem 
             description={email.description}
             id={email.id}
-            priority={email.priority}
             edit={email.edit}
             complete={email.complete}
             deleteEmail={deleteEmail}
