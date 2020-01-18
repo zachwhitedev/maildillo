@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { Row, Col, Button } from 'antd';
+import AddEmail from '../AddEmail/AddEmail';
+import EmailList from '../EmailList/EmailList';
 import jwt_decode from 'jwt-decode';
 import './Profile.css';
 
@@ -12,16 +14,55 @@ class Profile extends Component {
       email: '',
       errors: {
         msg: ''
-      }
+      },
+      emails: []
     };
   }
 
   logout = () => {
     localStorage.clear();
     this.setState({
-      email: ''
-    })
-  }
+      email: '',
+      emails: []
+    });
+  };
+
+  addEmail = newEmail => {
+    let oldList = this.state.emails;
+    let newList = oldList.concat([newEmail]);
+    this.setState({
+      emails: newList
+    });
+  };
+
+  deleteEmail = id => {
+    let newList = this.state.emails.filter(email => email.id !== id);
+    this.setState({
+      emails: newList
+    });
+  };
+
+  editEmail = id => {
+    let newList = this.state.emails.map(email => {
+      if (email.id === id) {
+        email.edit = true;
+      }
+      return email;
+    });
+    this.setState({ emails: newList });
+  };
+
+  saveEmail = (id, newName, newColor) => {
+    let newList = this.state.emails.map(email => {
+      if (email.id === id) {
+        email.description = newName;
+        email.color = newColor;
+        email.edit = false;
+      }
+      return email;
+    });
+    this.setState({ emails: newList });
+  };
 
   componentDidMount() {
     try {
@@ -41,29 +82,32 @@ class Profile extends Component {
 
   render() {
     let checktoken = localStorage.getItem('usertoken');
-    if(checktoken === null){
-      return <Redirect to='/login' />
+    if (checktoken === null) {
+      return <Redirect to='/login' />;
     }
     if (this.state.email) {
       return (
         <div className='profile-container'>
-          <Button id="profile-logout-btn" onClick={this.logout}>Logout</Button>
-          <div className='jumbotron mt-5'>
-            <div className='col-sm-8 mx-auto'>
-              <h1 className='text-center'>PROFILE</h1>
+          <Button id='profile-logout-btn' onClick={this.logout}>
+            Logout
+          </Button>
+          <div className='container'>
+            <div className='row'>
+              <AddEmail addEmail={this.addEmail} />
+              <EmailList
+                emails={this.state.emails}
+                deleteEmail={this.deleteEmail}
+                editEmail={this.editEmail}
+                saveEmail={this.saveEmail}
+              />
             </div>
-            <table className='table col-md-6 mx-auto'>
-              <tbody>
-                <tr>
-                  <td>Email</td>
-                  <td>{this.state.email}</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       );
-    } else return <p className='text-center jumbotron mt-5'>{this.state.errors.msg}</p>;
+    } else
+      return (
+        <p className='text-center jumbotron mt-5'>{this.state.errors.msg}</p>
+      );
   }
 }
 

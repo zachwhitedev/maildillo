@@ -13,52 +13,12 @@ import './App.css';
 
 function App() {
   const [state, setState] = useState({
-    isAuthenticated: false,
-    emails: []
+    isAuthenticated: false
   });
 
   const updateAppState = (newState) => {
     setState(newState)
   }
-
-  const addEmail = (newEmail) =>  {
-    let oldList = state.emails;
-    let newList = oldList.concat([newEmail])
-    setState({
-      emails: newList
-    })
-  }
-
-  const deleteEmail = (id) => {
-      let newList = state.emails.filter(email => email.id!==id)
-      setState({
-        emails: newList
-        })
-  };
-
-  const editEmail = (id) => {
-    let newList = state.emails.map(email => {
-      if(email.id === id){
-        email.edit = true;
-      }
-      return email;
-    });
-    setState({emails: newList})
-
-  }
-
-  const saveEmail = (id, newName, newColor) => {
-    let newList = state.emails.map(email => {
-      if(email.id === id){
-        email.description = newName;
-        email.color = newColor;
-        email.edit = false;      
-      }
-      return email;
-    });
-    setState({emails: newList})
-  }
-
 
   return (
     <Router>
@@ -87,7 +47,7 @@ function App() {
               <LoginPage updateAppState={updateAppState}/>
             </Route>
             <Route path='/profile' exact>
-              <Profile addEmail={addEmail} editEmail={editEmail} saveEmail={saveEmail} deleteEmail={deleteEmail}/>
+              <Profile />
             </Route>
           </div>
         </Switch>
