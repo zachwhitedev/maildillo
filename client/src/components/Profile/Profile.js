@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import armadillo from '../../assets/armadillo.png';
 import { Redirect } from 'react-router';
 import { Row, Col, Button } from 'antd';
 import AddEmail from '../AddEmail/AddEmail';
@@ -88,12 +89,13 @@ class Profile extends Component {
     if (this.state.email) {
       return (
         <div className='profile-container'>
+        <img src={armadillo} alt='armadillo icon' id='armadillo-icon' />
           <Button id='profile-logout-btn' onClick={this.logout}>
             Logout
           </Button>
           <div className='container'>
             <div className='row'>
-              <AddEmail addEmail={this.addEmail} />
+              <AddEmail addEmail={this.addEmail} emails={this.state.emails}/>
               <EmailList
                 emails={this.state.emails}
                 deleteEmail={this.deleteEmail}

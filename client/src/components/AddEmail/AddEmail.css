@@ -1,0 +1,9 @@
+#addemail-btn{
+    display: block;
+    margin: 4px 0 0 110px;
+    color: rgb(70, 201, 70);
+}
+
+#addemail-btn:hover, #addemail-btn:active, #addemail-btn:focus  {
+    border-color: rgb(42, 201, 42);
+}

@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { Button } from 'antd';
+import './AddEmail.css';
 
 export default function AddEmail(props) {
   const [state, setState] = useState({
-    description: ''
+    description: '',
+    size: 'small'
   });
 
   const handleChange = e => {
-    setState({ [e.target.name]: e.target.value });
+    setState({ ...state, [e.target.name]: e.target.value });
   };
 
   const onSubmit = () => {
+    if(props.emails.length >= 3){
+        alert('You have exceeded the limit of 3 emails per free account. Please upgrade to premium account to schedule more emails.')
+        return;
+    }
     let emailItem = {
       description: state.description,
       id: Math.random() + 1,
@@ -32,7 +38,7 @@ export default function AddEmail(props) {
           onChange={(e) => handleChange(e)}
           placeholder='add your email content...'
         />
-        <Button onClick={() => onSubmit()} className='btn btn-success'>
+        <Button onClick={() => onSubmit()} id='addemail-btn' size={state.size}>
           Add
         </Button>
       </div>
