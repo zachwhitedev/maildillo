@@ -12,7 +12,7 @@ class Profile extends Component {
     super();
     this.state = {
       redirect: false,
-      email: '',
+      useremail: '',
       errors: {
         msg: ''
       },
@@ -23,7 +23,7 @@ class Profile extends Component {
   logout = () => {
     localStorage.clear();
     this.setState({
-      email: '',
+      useremail: '',
       emails: []
     });
   };
@@ -53,11 +53,10 @@ class Profile extends Component {
     this.setState({ emails: newList });
   };
 
-  saveEmail = (id, newName, newColor) => {
+  saveEmail = (id, newName) => {
     let newList = this.state.emails.map(email => {
       if (email.id === id) {
-        email.description = newName;
-        email.color = newColor;
+        email.content = newName;
         email.edit = false;
       }
       return email;

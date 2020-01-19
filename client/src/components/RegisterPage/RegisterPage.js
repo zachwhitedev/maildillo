@@ -6,7 +6,7 @@ import AgreementPage from '../AgreementPage/AgreementPage';
 import './RegisterPage.css';
 import axios from 'axios';
 
-import { Form, Input, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Checkbox, Button, AutoComplete, Icon } from 'antd';
 
 const AutoCompleteOption = AutoComplete.Option;
 
@@ -103,9 +103,6 @@ class RegistrationForm extends React.Component {
       return <Redirect to='/login' />;
     }
 
-    const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
-
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -129,22 +126,26 @@ class RegistrationForm extends React.Component {
       }
     };
 
+    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched, autoCompleteResult } = this.props.form;
+    const usernameError = isFieldTouched('username') && getFieldError('username');
+
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-        <img src={armadillo} alt='armadillo icon' id='armadillo-icon-register' />
+      <img src={armadillo} alt='armadillo icon' id='armadillo-icon-register' />
+
         <Form.Item label='E-mail'>
           {getFieldDecorator('email', {
             rules: [
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!'
+                message: 'The input is not valid E-mail.'
               },
               {
                 required: true,
-                message: 'Please input your E-mail!'
+                message: 'Please input your E-mail.'
               }
             ]
-          })(<Input onChange={this.onChange} name='email' />)}
+          })(<Input onChange={this.onChange} name='email' placeholder='email@example.com'/>)}
         </Form.Item>
         <Form.Item label='Password' hasFeedback>
           {getFieldDecorator('password', {

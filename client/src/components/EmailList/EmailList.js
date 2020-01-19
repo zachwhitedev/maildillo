@@ -21,13 +21,13 @@ export default function EmailList (props) {
           <h4>Your Emails:</h4>
         {props.emails.map(email =>
           <EmailItem 
-            description={email.description}
+            content={email.content}
             id={email.id}
             edit={email.edit}
             complete={email.complete}
             deleteEmail={deleteEmail}
             editEmail={editEmail}
-            saveEmail={saveEmail}
+            saveEmail={props.saveEmail}
             color={email.color}
           />
         )}

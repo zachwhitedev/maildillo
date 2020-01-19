@@ -13,7 +13,9 @@ import './App.css';
 
 function App() {
   const [state, setState] = useState({
-    isAuthenticated: false
+    isAuthenticated: false,
+    useremail: '',
+    userid: ''
   });
 
   const updateAppState = (newState) => {

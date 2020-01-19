@@ -1,9 +1,49 @@
-#addemail-btn{
-    display: block;
-    margin: 4px 0 0 110px;
-    color: rgb(70, 201, 70);
+#addemail-container > Input {
+    margin-bottom: 5px;
+}
+#email-date-inputs > select {
+    margin: 5px 4px 5px 0;
+    border: 1px solid rgb(206, 206, 206);
+    color: rgb(86, 86, 86);
+}
+#email-time-inputs > select {
+    margin: 0 0 0 5px;
+    border: 1px solid rgb(206, 206, 206);
+    color: rgb(86, 86, 86);
 }
 
+#addemail-btn{
+    display: block;
+    width: 100%;
+    padding: 0 0;
+    height: 40px;
+    margin: 4px 0 0 0px;
+    color: rgb(20, 97, 19);
+    background-color: rgb(218, 255, 181);
+}
+
+#email-date-inputs{
+    display: flex;
+    justify-content: flex-start;
+}
+
+#email-time-inputs{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: -5px;
+}
+
+#pst{
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+#ampm {
+    padding: 1px 0;
+}
+
+
+
 #addemail-btn:hover, #addemail-btn:active, #addemail-btn:focus  {
-    border-color: rgb(42, 201, 42);
+    border-color: rgb(27, 130, 27);
 }
