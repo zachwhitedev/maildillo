@@ -119,7 +119,7 @@ const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(
 export default function LoginPage(props) {
   return (
     <div id='loginpage-container'>
-      <img src={armadillo} alt='armadillo icon' id='armadillo-icon' />
+      <img src={armadillo} alt='armadillo icon' id='armadillo-icon-login' />
       <h4 id='login-slug'>Schedule emails in your browser.</h4>
       <WrappedNormalLoginForm updateAppState={props.updateAppState} />
       <span id='asiteby'>

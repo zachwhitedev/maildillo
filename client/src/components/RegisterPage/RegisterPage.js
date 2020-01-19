@@ -131,6 +131,7 @@ class RegistrationForm extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <img src={armadillo} alt='armadillo icon' id='armadillo-icon-register' />
         <Form.Item label='E-mail'>
           {getFieldDecorator('email', {
             rules: [

@@ -89,7 +89,7 @@ class Profile extends Component {
     if (this.state.email) {
       return (
         <div className='profile-container'>
-        <img src={armadillo} alt='armadillo icon' id='armadillo-icon' />
+        <img src={armadillo} alt='armadillo icon' id='armadillo-icon-profile' />
           <Button id='profile-logout-btn' onClick={this.logout}>
             Logout
           </Button>
