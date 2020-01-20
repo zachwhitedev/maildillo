@@ -18,15 +18,10 @@ export default function EmailItem(props) {
       <Card
         size='small'
         title='Editing email...'
-        extra={<a onClick={() =>
-            props.saveEmail(props.id, state)}>Save</a>}
+        extra={<a onClick={() => props.saveEmail(props.id, state)}>Save</a>}
         style={{ width: 300 }}
       >
-        <textarea
-          onChange={handleEmailChange}
-        >
-          {props.content}
-        </textarea>
+        <textarea onChange={handleEmailChange}>{props.content}</textarea>
         <br></br>
         <Button onClick={() => props.deleteEmail(props.id)}>delete</Button>
       </Card>
