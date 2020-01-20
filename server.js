@@ -32,6 +32,8 @@ mongoose
   .then(() => console.log('MongoDB Connected...'))
   .catch(() => console.log(err));
 
+mongoose.set('useFindAndModify', false);
+
 const User = require('./models/MaildilloUser');
 const Email = require('./models/MaildilloEmail');
 
@@ -49,7 +51,9 @@ app.get('/showusers', (req, res) => {
 });
 
 app.get('/showemails', (req, res) => {
-  Email.find({}).then(emails => res.send(emails)).catch(err => res.send(err))
+  Email.find({})
+    .then(emails => res.send(emails))
+    .catch(err => res.send(err));
 });
 
 app.get('/getuseremails/:userid', (req, res) => {
@@ -60,6 +64,34 @@ app.delete('/deleteemail/:id', (req, res) => {
   Email.findOneAndDelete({ _id: req.params.id })
     .then(res.send('Email deleted.'))
     .catch(err => console.log(err));
+});
+
+app.post('/editemail/:id', (req, res) => {
+  Email.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: { edit: true } }
+    )
+      .then(res.send('Email being edited.'))
+      .catch(err => console.log(err))
+});
+app.post('/addemail', (req, res) => {
+  Email.create(req.body)
+    .then(email => {
+      Email.find({ userid: email.userid })
+        .then(emails => res.send(emails))
+        .catch(err => console.log(err));
+    })
+    .catch(err => {
+      res.send('error:' + err);
+    });
+});
+app.post('/saveemail/:id', (req, res) => {
+  Email.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: { "edit": false, "content": req.body.newEmail } }
+    )
+      .then(res.send('Email updated successfully.'))
+      .catch(err => console.log(err))
 })
 
 app.delete('/deleteallusers', (req, res) => {
@@ -70,17 +102,6 @@ app.delete('/deleteallemails', (req, res) => {
   Email.deleteMany({}).then(res.send('all emails delete. database empty'));
 });
 
-app.post('/addemail', (req, res) => {
-  Email.create(req.body)
-    .then(email => {
-      Email.find({ userid: email.userid })
-      .then(emails => res.send(emails))
-      .catch(err => console.log(err));
-    })
-    .catch(err => {
-      res.send('error:' + err);
-    });
-});
 
 app.post('/register', (req, res) => {
   const today = new Date();

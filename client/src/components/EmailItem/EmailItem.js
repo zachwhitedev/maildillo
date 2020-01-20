@@ -19,7 +19,7 @@ export default function EmailItem(props) {
         size='small'
         title='Editing email...'
         extra={<a onClick={() =>
-            props.saveEmail(props.id, state.newEmail)}>Save</a>}
+            props.saveEmail(props.id, state)}>Save</a>}
         style={{ width: 300 }}
       >
         <textarea

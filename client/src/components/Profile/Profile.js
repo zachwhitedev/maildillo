@@ -30,48 +30,36 @@ class Profile extends Component {
   };
 
   addEmail = newEmail => {
-    axios.post('/addemail', newEmail).then(res => {
-      console.log(res.data);
-      this.setState({
-        emails: res.data
-      });
-    })
-      .catch(err => console.log(err))
+    axios
+      .post('/addemail', newEmail)
+      .then(res => {
+        console.log(res.data);
+        // this.setState({
+        //   emails: res.data
+        // });
+        this.getUserEmails()
+      })
+      .catch(err => console.log(err));
   };
 
-  updateEmail = newEmail => {
-    axios.post('/updateemail', newEmail).then(res => {
-      this.setState({
-        emails: res
-      });
-    });
+  saveEmail = (id, newEmail) => {
+    axios.post(`/saveemail/${id}`, newEmail)
+    .then(this.getUserEmails())
+    .catch(err => console.log(err));
   };
 
   deleteEmail = id => {
-    axios.delete(`/deleteemail/${id}`)
-    .then(this.getUserEmails())
-    .catch(err => console.log(err))
+    axios
+      .delete(`/deleteemail/${id}`)
+      .then(this.getUserEmails())
+      .catch(err => console.log(err));
   };
 
   editEmail = id => {
-    let newList = this.state.emails.map(email => {
-      if (email.id === id) {
-        email.edit = true;
-      }
-      return email;
-    });
-    this.setState({ emails: newList });
-  };
-
-  saveEmail = (id, newName) => {
-    let newList = this.state.emails.map(email => {
-      if (email.id === id) {
-        email.content = newName;
-        email.edit = false;
-      }
-      return email;
-    });
-    this.setState({ emails: newList });
+    axios
+      .post(`/editemail/${id}`)
+      .then(this.getUserEmails())
+      .catch(err => console.log(err));
   };
 
   getUserEmails = () => {
@@ -79,7 +67,7 @@ class Profile extends Component {
       console.log(res);
       this.setState({
         emails: res.data
-      })
+      });
     });
   };
 
@@ -119,7 +107,12 @@ class Profile extends Component {
           </Button>
           <div className='container'>
             <div className='row'>
-              <AddEmail addEmail={this.addEmail} emails={this.state.emails} userid={this.state.userid} useremail={this.state.useremail}/>
+              <AddEmail
+                addEmail={this.addEmail}
+                emails={this.state.emails}
+                userid={this.state.userid}
+                useremail={this.state.useremail}
+              />
               <EmailList
                 userid={this.state.userid}
                 emails={this.state.emails}
