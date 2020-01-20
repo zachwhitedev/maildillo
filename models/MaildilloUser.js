@@ -3,18 +3,6 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const MaildilloUserSchema = new Schema({
-  name: {
-    first: {
-      type: String,
-      trim: true,
-      minlength: 1,
-    },
-    last: {
-      type: String,
-      trim: true,
-      minlength: 1,
-    }
-  },
   email: {
     type: String,
     trim: true,

@@ -33,6 +33,7 @@ mongoose
   .catch(() => console.log(err));
 
 const User = require('./models/MaildilloUser');
+const Email = require('./models/MaildilloEmail');
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', 'YOUR-DOMAIN.TLD'); // update to match the domain you will make the request from
@@ -47,8 +48,38 @@ app.get('/showusers', (req, res) => {
   User.find({}).then(users => res.send(users));
 });
 
+app.get('/showemails', (req, res) => {
+  Email.find({}).then(emails => res.send(emails)).catch(err => res.send(err))
+});
+
+app.get('/getuseremails/:userid', (req, res) => {
+  Email.find({ userid: req.params.userid }).then(emails => res.send(emails));
+});
+
+app.delete('/deleteemail/:id', (req, res) => {
+  Email.findOneAndDelete({ _id: req.params.id })
+    .then(res.send('Email deleted.'))
+    .catch(err => console.log(err));
+})
+
 app.delete('/deleteallusers', (req, res) => {
   User.deleteMany({}).then(res.send('all users delete. database empty'));
+});
+
+app.delete('/deleteallemails', (req, res) => {
+  Email.deleteMany({}).then(res.send('all emails delete. database empty'));
+});
+
+app.post('/addemail', (req, res) => {
+  Email.create(req.body)
+    .then(email => {
+      Email.find({ userid: email.userid })
+      .then(emails => res.send(emails))
+      .catch(err => console.log(err));
+    })
+    .catch(err => {
+      res.send('error:' + err);
+    });
 });
 
 app.post('/register', (req, res) => {
@@ -94,10 +125,8 @@ app.post('/login', async (req, res) => {
       if (user) {
         if (bcrypt.compareSync(req.body.password, user.password)) {
           const payload = {
-            _id: user._id,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email
+            userid: user._id,
+            useremail: user.email
           };
           let token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: '30m'

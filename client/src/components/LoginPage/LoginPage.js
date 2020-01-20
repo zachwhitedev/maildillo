@@ -29,7 +29,7 @@ class NormalLoginForm extends React.Component {
             if (response.data.error) {
               this.setState({ msg: response.data.error });
             } else {
-              console.log(response);
+              console.log(response)
               localStorage.setItem('usertoken', response.data);
               this.props.updateAppState({
                 isAuthenticated: true

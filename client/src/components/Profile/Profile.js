@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import armadillo from '../../assets/armadillo.png';
 import { Redirect } from 'react-router';
 import { Row, Col, Button } from 'antd';
@@ -29,18 +30,27 @@ class Profile extends Component {
   };
 
   addEmail = newEmail => {
-    let oldList = this.state.emails;
-    let newList = oldList.concat([newEmail]);
-    this.setState({
-      emails: newList
+    axios.post('/addemail', newEmail).then(res => {
+      console.log(res.data);
+      this.setState({
+        emails: res.data
+      });
+    })
+      .catch(err => console.log(err))
+  };
+
+  updateEmail = newEmail => {
+    axios.post('/updateemail', newEmail).then(res => {
+      this.setState({
+        emails: res
+      });
     });
   };
 
   deleteEmail = id => {
-    let newList = this.state.emails.filter(email => email.id !== id);
-    this.setState({
-      emails: newList
-    });
+    axios.delete(`/deleteemail/${id}`)
+    .then(this.getUserEmails())
+    .catch(err => console.log(err))
   };
 
   editEmail = id => {
@@ -64,13 +74,24 @@ class Profile extends Component {
     this.setState({ emails: newList });
   };
 
+  getUserEmails = () => {
+    axios.get(`/getuseremails/${this.state.userid}`).then(res => {
+      console.log(res);
+      this.setState({
+        emails: res.data
+      })
+    });
+  };
+
   componentDidMount() {
     try {
       const token = localStorage.usertoken;
       const decoded = jwt_decode(token);
       this.setState({
-        email: decoded.email
+        userid: decoded.userid,
+        useremail: decoded.useremail
       });
+      this.getUserEmails();
     } catch {
       this.setState({
         errors: {
@@ -85,21 +106,27 @@ class Profile extends Component {
     if (checktoken === null) {
       return <Redirect to='/login' />;
     }
-    if (this.state.email) {
+    if (this.state.useremail) {
       return (
         <div className='profile-container'>
-        <img src={armadillo} alt='armadillo icon' id='armadillo-icon-profile' />
+          <img
+            src={armadillo}
+            alt='armadillo icon'
+            id='armadillo-icon-profile'
+          />
           <Button id='profile-logout-btn' onClick={this.logout}>
             Logout
           </Button>
           <div className='container'>
             <div className='row'>
-              <AddEmail addEmail={this.addEmail} emails={this.state.emails}/>
+              <AddEmail addEmail={this.addEmail} emails={this.state.emails} userid={this.state.userid} useremail={this.state.useremail}/>
               <EmailList
+                userid={this.state.userid}
                 emails={this.state.emails}
                 deleteEmail={this.deleteEmail}
                 editEmail={this.editEmail}
                 saveEmail={this.saveEmail}
+                getUserEmails={this.getUserEmails}
               />
             </div>
           </div>

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Input } from 'antd';
 import './AddEmail.css';
-import { stat } from 'fs';
 
 export default function AddEmail(props) {
   const [state, setState] = useState({
-    userid: '',
-    useremail: '',
+    userid: props.userid,
+    useremail: props.useremail,
     toemail: '',
     subject: '',
     content: '',
@@ -15,7 +14,7 @@ export default function AddEmail(props) {
     year: '',
     hour: '',
     minutes: '',
-    ampm: '',
+    ampm: 'am',
     size: 'small'
   });
 
@@ -24,16 +23,15 @@ export default function AddEmail(props) {
   };
 
   const onSubmit = () => {
-    console.log(state);
     if (props.emails.length >= 3) {
       alert(
         'You have exceeded the limit of 3 emails per free account. Please upgrade to premium account to schedule more emails.'
       );
       return;
     }
-    let emailItem = {
-      userid: state.userid,
-      useremail: state.useremail,
+    const newEmail = {
+      userid: props.userid,
+      useremail: props.useremail,
       toemail: state.to,
       subject: state.subject,
       content: state.content,
@@ -43,13 +41,11 @@ export default function AddEmail(props) {
       hour: state.hour,
       minutes: state.minutes,
       ampm: state.ampm,
-      id: Math.random() + 1,
       complete: false,
       edit: false,
-      color: ''
     };
 
-    props.addEmail(emailItem);
+    props.addEmail(newEmail);
   };
 
   return (
@@ -142,7 +138,7 @@ export default function AddEmail(props) {
             <option value='' selected disabled hidden>
               Year
             </option>
-            <option value=''>2020</option>
+            <option value='2020'>2020</option>
             <option value='2021'>2021</option>
             <option value='2022'>2022</option>
             <option value='2023'>2023</option>
@@ -179,7 +175,7 @@ export default function AddEmail(props) {
             <option value='30'>30</option>
             <option value='45'>45</option>
           </select>
-          <select name='ampm' value={state.ampm} id='ampm'>
+          <select name='ampm' id='ampm' value={state.ampm} onChange={e => handleChange(e)}>
             <option value='am'>am</option>
             <option value='pm'>pm</option>
           </select>
