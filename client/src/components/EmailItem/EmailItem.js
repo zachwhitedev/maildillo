@@ -28,7 +28,7 @@ export default function EmailItem(props) {
           {props.content}
         </textarea>
         <br></br>
-        <button onClick={() => props.deleteEmail(props.id)}>delete</button>
+        <Button onClick={() => props.deleteEmail(props.id)}>delete</Button>
       </Card>
     );
   } else {
