@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import EmailItem from '../EmailItem/EmailItem';
-import axios from 'axios';
 
 export default function EmailList(props) {
 
@@ -19,9 +18,17 @@ export default function EmailList(props) {
           <h4>Your Emails:</h4>
           {props.emails.map(email => (
             <EmailItem
-              content={email.content}
               id={email._id}
               userid={email.userid}
+              content={email.content}
+              subject={email.subject}
+              toemail={email.toemail}
+              month={email.month}
+              day={email.day}
+              year={email.year}
+              hour={email.hour}
+              minutes={email.minutes}
+              ampm={email.ampm}
               edit={email.edit}
               complete={email.complete}
               deleteEmail={props.deleteEmail}

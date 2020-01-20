@@ -6,14 +6,14 @@ export default function AddEmail(props) {
   const [state, setState] = useState({
     userid: props.userid,
     useremail: props.useremail,
-    toemail: '',
-    subject: '',
-    content: '',
-    month: '',
-    day: '',
+    toemail: 'You must add a recipient email.',
+    subject: '[no subject]',
+    content: 'No content was added to this email.',
+    month: '12',
+    day: '1',
     year: '',
-    hour: '',
-    minutes: '',
+    hour: '12',
+    minutes: '00',
     ampm: 'am',
     size: 'small'
   });
@@ -32,7 +32,7 @@ export default function AddEmail(props) {
     const newEmail = {
       userid: props.userid,
       useremail: props.useremail,
-      toemail: state.to,
+      toemail: state.toemail,
       subject: state.subject,
       content: state.content,
       month: state.month,
@@ -54,14 +54,12 @@ export default function AddEmail(props) {
         <Input
           type='text'
           name='toemail'
-          value={state.toemail}
           onChange={e => handleChange(e)}
           placeholder='recipient@example.com'
         />
         <Input
           type='text'
           name='subject'
-          value={state.subject}
           onChange={e => handleChange(e)}
           placeholder='Subject'
         />
@@ -69,16 +67,15 @@ export default function AddEmail(props) {
           rows={6}
           onChange={e => handleChange(e)}
           name='content'
-          placeholder='Dear Mr. Person, I'
+          placeholder='Dear Person, I am writing to you because...'
         ></Input.TextArea>
         <br></br>
         <div id='email-date-inputs'>
           <select
             name='month'
             onChange={e => handleChange(e)}
-            value={state.month}
           >
-            <option value='' selected disabled hidden>
+            <option selected disabled hidden>
               Month
             </option>
             <option value='Jan'>January</option>
@@ -95,7 +92,7 @@ export default function AddEmail(props) {
             <option value='Dec'>December</option>
           </select>
           <select name='day' onChange={e => handleChange(e)} value={state.day}>
-            <option value='' selected disabled hidden>
+            <option selected disabled hidden>
               Day
             </option>
             <option value='1'>1</option>
@@ -132,7 +129,6 @@ export default function AddEmail(props) {
           </select>
           <select
             name='year'
-            value={state.year}
             onChange={e => handleChange(e)}
           >
             <option value='' selected disabled hidden>

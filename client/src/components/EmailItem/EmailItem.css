@@ -1,0 +1,19 @@
+#edit-email-textarea{
+    border: 1px solid rgb(181, 181, 181);
+    width: 100%;
+    color: gray;
+    border-radius: 3px;
+    height: 120px;
+
+}
+#edit-email-textarea:focus{
+    border: 1px solid rgb(96, 199, 255);
+}
+
+#email-content-static{
+    white-space: normal;
+    overflow: hidden;
+    border: 1px solid rgb(206, 206, 206);
+    padding: 1px 2px 2px 2px;
+    width: 272px;
+}

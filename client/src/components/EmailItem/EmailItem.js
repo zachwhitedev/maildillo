@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button } from 'antd';
+import { Card, Button, Input } from 'antd';
 import './EmailItem.css';
 
 export default function EmailItem(props) {
@@ -20,8 +20,13 @@ export default function EmailItem(props) {
         title='Editing email...'
         extra={<a onClick={() => props.saveEmail(props.id, state)}>Save</a>}
         style={{ width: 300 }}
-      >
-        <textarea onChange={handleEmailChange}>{props.content}</textarea>
+        >
+        <span>{props.toemail}</span><br></br>
+        <span><b>{props.subject}</b></span><br></br>
+        <textarea id='edit-email-textarea' onChange={handleEmailChange}>{props.content}</textarea><br></br>
+        <span>
+          {props.month + ' ' + props.day + ' ' + props.hour + ':' + props.minutes + props.ampm}
+        </span>
         <br></br>
         <Button onClick={() => props.deleteEmail(props.id)}>delete</Button>
       </Card>
@@ -34,7 +39,12 @@ export default function EmailItem(props) {
         extra={<a onClick={() => props.editEmail(props.id)}>Edit</a>}
         style={{ width: 300 }}
       >
-        <li style={{ backgroundColor: props.color }}>{props.content}</li>
+        <span><b>to:</b> {props.toemail}</span><br></br>
+        <span><b>{props.subject}</b></span><br></br>
+        <div id='email-content-static'><p>{props.content}</p></div><br></br>
+        <span>
+          {props.month + ' ' + props.day + ' ' + props.hour + ':' + props.minutes + props.ampm}
+        </span><br></br>
         <Button onClick={() => props.deleteEmail(props.id)}>delete</Button>
       </Card>
     );
