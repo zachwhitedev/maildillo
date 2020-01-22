@@ -9,12 +9,12 @@ export default function AddEmail(props) {
     toemail: 'You must add a recipient email.',
     subject: '[no subject]',
     content: 'No content was added to this email.',
-    month: '12',
-    day: '1',
-    year: '',
+    month: '01',
+    day: '01',
+    year: '2020',
     hour: '12',
     minutes: '00',
-    ampm: 'am',
+    ampm: 'PM',
     size: 'small'
   });
 
@@ -78,32 +78,32 @@ export default function AddEmail(props) {
             <option selected disabled hidden>
               Month
             </option>
-            <option value='Jan'>January</option>
-            <option value='Feb'>February</option>
-            <option value='Mar'>March</option>
-            <option value='Apr'>April</option>
-            <option value='May'>May</option>
-            <option value='Jun'>June</option>
-            <option value='Jul'>July</option>
-            <option value='Aug'>August</option>
-            <option value='Sep'>September</option>
-            <option value='Oct'>October</option>
-            <option value='Nov'>November</option>
-            <option value='Dec'>December</option>
+            <option value='01'>January</option>
+            <option value='02'>February</option>
+            <option value='03'>March</option>
+            <option value='04'>April</option>
+            <option value='05'>May</option>
+            <option value='06'>June</option>
+            <option value='07'>July</option>
+            <option value='08'>August</option>
+            <option value='09'>September</option>
+            <option value='10'>October</option>
+            <option value='11'>November</option>
+            <option value='12'>December</option>
           </select>
           <select name='day' onChange={e => handleChange(e)} value={state.day}>
             <option selected disabled hidden>
               Day
             </option>
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-            <option value='5'>5</option>
-            <option value='6'>6</option>
-            <option value='7'>7</option>
-            <option value='8'>8</option>
-            <option value='9'>9</option>
+            <option value='01'>1</option>
+            <option value='02'>2</option>
+            <option value='03'>3</option>
+            <option value='04'>4</option>
+            <option value='05'>5</option>
+            <option value='06'>6</option>
+            <option value='07'>7</option>
+            <option value='08'>8</option>
+            <option value='09'>9</option>
             <option value='10'>10</option>
             <option value='11'>11</option>
             <option value='12'>12</option>
@@ -172,8 +172,8 @@ export default function AddEmail(props) {
             <option value='45'>45</option>
           </select>
           <select name='ampm' id='ampm' value={state.ampm} onChange={e => handleChange(e)}>
-            <option value='am'>am</option>
-            <option value='pm'>pm</option>
+            <option value='AM'>am</option>
+            <option value='PM'>pm</option>
           </select>
           <span id='pst'>PST</span>
         </div>

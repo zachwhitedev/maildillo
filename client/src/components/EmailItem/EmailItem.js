@@ -41,7 +41,9 @@ export default function EmailItem(props) {
       >
         <span><b>to:</b> {props.toemail}</span><br></br>
         <span><b>{props.subject}</b></span><br></br>
-        <div id='email-content-static'><p>{props.content}</p></div><br></br>
+        <div id='email-content-static'>
+          <p id='email-content-p'>{props.content}</p>
+          </div><br></br>
         <span>
           {props.month + ' ' + props.day + ' ' + props.hour + ':' + props.minutes + props.ampm}
         </span><br></br>
