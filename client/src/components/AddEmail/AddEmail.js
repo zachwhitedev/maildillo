@@ -35,8 +35,10 @@ export default function AddEmail(props) {
     let executionTimeUnix = executionTime.getTime()
 
     if(state.ampm == 'PM'){
-      executionTimeUnix += 43200; // if PM, add 12 hours to Unix Epoch Time (43200 seconds)
+      executionTimeUnix += 43200000; // if PM, add 12 hours to Unix Epoch Time (43200 seconds // 43200000 ms)
     }
+
+    console.log(executionTimeUnix);
 
     const newEmail = {
       userid: props.userid,
@@ -45,6 +47,12 @@ export default function AddEmail(props) {
       subject: state.subject,
       content: state.content,
       unixTime: executionTimeUnix,
+      month: state.month, // month, day, hour, etc. only necessary for EmailItem view
+      day: state.day,
+      year: state.year,
+      hour: state.hour,
+      minutes: state.minutes,
+      ampm: state.ampm,
       complete: false,
       edit: false,
     };

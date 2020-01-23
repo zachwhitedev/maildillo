@@ -45,7 +45,7 @@ export default function EmailItem(props) {
           <p id='email-content-p'>{props.content}</p>
           </div><br></br>
         <span>
-          {props.month + ' ' + props.day + ' ' + props.hour + ':' + props.minutes + props.ampm}
+          {props.month + '/' + props.day + ' ' + props.hour + ':' + props.minutes + props.ampm}
         </span><br></br>
         <Button onClick={() => props.deleteEmail(props.id)}>delete</Button>
       </Card>

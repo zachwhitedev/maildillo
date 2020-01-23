@@ -13,7 +13,7 @@ export default function EmailList(props) {
     return <h1>Loading...</h1>;
   } else {
     return (
-      <div className='col-md-8'>
+      <div className='email-list-container'>
         <div className='card'>
           <h4>Your Emails:</h4>
           {props.emails.map(email => (

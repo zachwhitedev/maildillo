@@ -46,6 +46,10 @@ const MaildilloEmailSchema = new Schema({
     trim: true,
     default: 'am'
   },
+  unixTime: {
+    type: String,
+    trim: true
+  },
   complete: {
     type: Boolean,
     default: false
