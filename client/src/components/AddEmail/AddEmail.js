@@ -25,22 +25,26 @@ export default function AddEmail(props) {
   const onSubmit = () => {
     if (props.emails.length >= 3) {
       alert(
-        'You have exceeded the limit of 3 emails per free account. Please upgrade to premium account to schedule more emails.'
+        'You have exceeded the limit of 3 emails per free account. Please upgrade to premium account to schedule more emails, even though this site doesn\'t actually have a premium option.'
       );
       return;
     }
+
+    // let executionTime1 = new Date('12/04/2012 07:00') // note that the month is first, so this one is Dec 4th (Jay-Z's birthday, and also a solid song).
+    let executionTime = new Date(`${state.month}` + '/' + `${state.day}` + '/' + `${state.year}` + ' ' + `${state.hour}` + ':' + `${state.minutes}`);
+    let executionTimeUnix = executionTime.getTime()
+
+    if(state.ampm == 'PM'){
+      executionTimeUnix += 43200; // if PM, add 12 hours to Unix Epoch Time (43200 seconds)
+    }
+
     const newEmail = {
       userid: props.userid,
       useremail: props.useremail,
       toemail: state.toemail,
       subject: state.subject,
       content: state.content,
-      month: state.month,
-      day: state.day,
-      year: state.year,
-      hour: state.hour,
-      minutes: state.minutes,
-      ampm: state.ampm,
+      unixTime: executionTimeUnix,
       complete: false,
       edit: false,
     };
@@ -175,7 +179,7 @@ export default function AddEmail(props) {
             <option value='AM'>am</option>
             <option value='PM'>pm</option>
           </select>
-          <span id='pst'>PST</span>
+          {/* <span id='pst'>PST</span> DONT NEED THIS BC I THINK THE TIME ZONE DEFAULT'S TO CLIENT'S COMPUTER*/} 
         </div>
         <Button onClick={() => onSubmit()} id='addemail-btn' size={state.size}>
           Add
