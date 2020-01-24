@@ -25,7 +25,8 @@
     "js-file-download": "^0.4.8",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.7",
-    "node": "^12.13.0"
+    "node": "^12.13.0",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
