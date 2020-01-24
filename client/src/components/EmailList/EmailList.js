@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import EmailItem from '../EmailItem/EmailItem';
+import './EmailList.css';
 
 export default function EmailList(props) {
 
   useEffect(() => {
     props.getUserEmails();
-  }, []); 
+  }); 
   
   //passing empty erray to replicate "componentDidMount"
 
@@ -14,8 +15,7 @@ export default function EmailList(props) {
   } else {
     return (
       <div className='email-list-container'>
-        <div className='card'>
-          <h4>Your Emails:</h4>
+          <h2 id='your-emails-title'>Your Emails:</h2>
           {props.emails.map(email => (
             <EmailItem
               id={email._id}
@@ -37,7 +37,6 @@ export default function EmailList(props) {
               color={email.color}
             />
           ))}
-        </div>
       </div>
     );
   }

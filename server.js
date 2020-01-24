@@ -149,9 +149,7 @@ app.post('/login', async (req, res) => {
             userid: user._id,
             useremail: user.email
           };
-          let token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: '30m'
-          });
+          let token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 30 * 60 });
           res.send(token);
         } else {
           res.json({ error: 'Invalid login credentials.' });

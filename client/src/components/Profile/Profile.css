@@ -1,5 +1,5 @@
 #profile-logout-btn {
-    position: fixed;
+    position: absolute;
     top: 20px;
     right: 20px;
 }
@@ -12,8 +12,8 @@
 }
 
 #armadillo-icon-profile {
-    position: fixed;
-    top: 0px;
-    left: 20px;
-    width: 120px;
+    position: absolute;
+    top: -10px;
+    left: 6px;
+    width: 80px;
 }

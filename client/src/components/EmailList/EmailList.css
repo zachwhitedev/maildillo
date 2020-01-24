@@ -1,3 +1,8 @@
 .email-list-container{
-    padding-bottom: 80px;
+    margin-bottom: 80px;
+}
+
+#your-emails-title {
+    text-align: center;
+    margin-top: 20px;
 }

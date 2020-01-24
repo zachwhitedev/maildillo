@@ -30,7 +30,7 @@
 }
 
 #armadillo-icon-register {
-  position: fixed;
+  position: absolute;
   top: -10px;
   left: 5px;
   width: 80px;
@@ -44,8 +44,8 @@
   #armadillo-icon-register {
     position: relative;
     display: block;
-    margin: 0 auto -30px auto;
-    width: 140px;
-
+    margin: 0 auto -40px auto;
+    width: 180px;
+    padding-right: 40px;
   }
 }

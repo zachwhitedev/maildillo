@@ -1,3 +1,7 @@
+#email-item-container{
+  margin-bottom: 20px;
+}
+
 #edit-email-textarea {
   border: 1px solid rgb(181, 181, 181);
   width: 100%;
@@ -20,6 +24,13 @@
   white-space: normal;
   overflow-y: hidden;
   border-radius: 2px;
-  min-height: 20px;
   font-size: 8pt;
+}
+
+#date-display {
+  color: rgb(30, 11, 0);
+}
+
+#btn {
+  margin-top: 6px;
 }

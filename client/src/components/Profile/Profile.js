@@ -106,7 +106,6 @@ class Profile extends Component {
             Logout
           </Button>
           <div className='container'>
-            <div className='row'>
               <AddEmail
                 addEmail={this.addEmail}
                 emails={this.state.emails}
@@ -121,7 +120,6 @@ class Profile extends Component {
                 saveEmail={this.saveEmail}
                 getUserEmails={this.getUserEmails}
               />
-            </div>
           </div>
         </div>
       );
