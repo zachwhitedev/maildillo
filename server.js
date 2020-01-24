@@ -13,7 +13,6 @@ const app = express();
 dotenv.config();
 const uri = process.env.MONGODB_URI;
 
-// Bodyparser Middleware
 app.use(bodyParser.json());
 app.use(cors());
 app.use(
@@ -22,7 +21,6 @@ app.use(
   })
 );
 
-// Connect to MongoDB
 mongoose
   .connect(uri, {
     useUnifiedTopology: true,
