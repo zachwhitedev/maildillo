@@ -14,7 +14,7 @@ export default function AddEmail(props) {
     year: '2020',
     hour: '12',
     minutes: '00',
-    ampm: 'AM/PM not selected.',
+    ampm: 'AM',
     size: 'small'
   });
 
@@ -43,6 +43,8 @@ export default function AddEmail(props) {
         `${state.minutes}`
     );
     let executionTimeUnix = executionTime.getTime();
+
+    console.log(state.ampm)
 
     if (state.ampm == 'PM') {
       executionTimeUnix += 43200000; // if PM, add 12 hours to Unix Epoch Time (43200 seconds // 43200000 ms)
@@ -197,7 +199,6 @@ export default function AddEmail(props) {
         <select
           name='ampm'
           id='ampm'
-          value={state.ampm}
           onChange={e => handleChange(e)}
         >
           <option value='AM'>am</option>
