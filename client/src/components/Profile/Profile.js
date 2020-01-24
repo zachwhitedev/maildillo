@@ -33,7 +33,6 @@ class Profile extends Component {
     axios
       .post('/addemail', newEmail)
       .then(res => {
-        console.log(res.data);
         // this.setState({
         //   emails: res.data
         // });
@@ -64,7 +63,6 @@ class Profile extends Component {
 
   getUserEmails = () => {
     axios.get(`/getuseremails/${this.state.userid}`).then(res => {
-      console.log(res);
       this.setState({
         emails: res.data
       });

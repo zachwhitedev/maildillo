@@ -48,8 +48,6 @@ export default function AddEmail(props) {
       executionTimeUnix += 43200000; // if PM, add 12 hours to Unix Epoch Time (43200 seconds // 43200000 ms)
     }
 
-    console.log(executionTimeUnix);
-
     const newEmail = {
       userid: props.userid,
       useremail: props.useremail,
