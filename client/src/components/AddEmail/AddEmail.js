@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Input } from 'antd';
 import './AddEmail.css';
 
@@ -68,7 +68,12 @@ export default function AddEmail(props) {
     };
 
     props.addEmail(newEmail);
+    props.getUserEmails();
   };
+
+  useEffect(() => {
+    props.getUserEmails()
+  }, [])
 
   return (
     <div id='addemail-container'>

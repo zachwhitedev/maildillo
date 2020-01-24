@@ -111,6 +111,7 @@ class Profile extends Component {
                 emails={this.state.emails}
                 userid={this.state.userid}
                 useremail={this.state.useremail}
+                getUserEmails={this.getUserEmails}
               />
               <EmailList
                 userid={this.state.userid}
