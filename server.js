@@ -172,39 +172,40 @@ app.get('/profile', (req, res) => {
   User.findOne({
     _id: decoded._id
   })
-    .then(user => {
-      if (user) {
-        res.json(user);
-      } else {
-        res.send('User does not exist.');
-      }
-    })
-    .catch(err => {
-      res.send('error: ' + err);
-    });
+  .then(user => {
+    if (user) {
+      res.json(user);
+    } else {
+      res.send('User does not exist.');
+    }
+  })
+  .catch(err => {
+    res.send('error: ' + err);
+  });
 });
 
 app.get('/test', (req, res) => {
   User.find({})
-    .stream()
-    .on('data', doc => {
-      console.log(doc.email + ',');
-    })
-    .on('close', () => {
-      console.log('all done.');
-      res.send('All done.');
-    });
+  .stream()
+  .on('data', doc => {
+    console.log(doc.email + ',');
+  })
+  .on('close', () => {
+    console.log('all done.');
+    res.send('All done.');
+  });
 });
 
-// Serve static assests if in production
-if (process.env.NODE_ENV === 'production') {
-  // Set static folder
-  app.use(express.static('client/build'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
+const PORT = process.env.PORT || 5000;
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static( 'client/build' ));
+    app.use('*', express.static('client/build')); // added as per https://stackoverflow.com/questions/45419943/express-react-router-internal-server-error-when-linked-directly
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+    })
+
 }
 
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => console.log(`Server listening on port ${port}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}.`);
+})
