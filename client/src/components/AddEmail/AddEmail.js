@@ -14,7 +14,7 @@ export default function AddEmail(props) {
     year: '2020',
     hour: '12',
     minutes: '00',
-    ampm: 'PM',
+    ampm: 'AM/PM not selected.',
     size: 'small'
   });
 
