@@ -6,7 +6,7 @@ export default function EmailList(props) {
 
   useEffect(() => {
     props.getUserEmails();
-  }); 
+  }, []); 
   
   //passing empty erray to replicate "componentDidMount"
 

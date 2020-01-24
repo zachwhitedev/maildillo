@@ -1,4 +1,4 @@
-import React, { setState, useEffect } from 'react';
+import React from 'react';
 import armadillo from '../../assets/armadillo.png';
 import { Link, useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router';
