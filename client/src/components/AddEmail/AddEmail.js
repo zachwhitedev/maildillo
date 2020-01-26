@@ -44,7 +44,7 @@ export default function AddEmail(props) {
     );
     let executionTimeUnix = executionTime.getTime();
 
-    console.log(state.ampm)
+    console.log(state.ampm);
 
     if (state.ampm == 'PM') {
       executionTimeUnix += 43200000; // if PM, add 12 hours to Unix Epoch Time (43200 seconds // 43200000 ms)
@@ -72,8 +72,8 @@ export default function AddEmail(props) {
   };
 
   useEffect(() => {
-    props.getUserEmails()
-  }, [])
+    props.getUserEmails();
+  }, []);
 
   return (
     <div id='addemail-container'>
@@ -196,11 +196,7 @@ export default function AddEmail(props) {
           <option value='50'>50</option>
           <option value='55'>55</option>
         </select>
-        <select
-          name='ampm'
-          id='ampm'
-          onChange={e => handleChange(e)}
-        >
+        <select name='ampm' id='ampm' onChange={e => handleChange(e)}>
           <option value='AM'>am</option>
           <option value='PM'>pm</option>
         </select>

@@ -94,9 +94,6 @@ class NormalLoginForm extends React.Component {
             valuePropName: 'checked',
             initialValue: true
           })(<Checkbox>Remember me</Checkbox>)}
-          <a className='login-form-forgot' href=''>
-            Forgot password
-          </a>
           <Button
             type='primary'
             htmlType='submit'
