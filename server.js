@@ -7,8 +7,6 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 
-const verifyUser = require('./routes/verifyToken');
-
 const app = express();
 dotenv.config();
 const uri = process.env.MONGODB_URI;
@@ -42,16 +40,6 @@ app.use(function(req, res, next) {
     'Origin, X-Requested-With, Content-Type, Accept'
   );
   next();
-});
-
-app.get('/showusers', (req, res) => {
-  User.find({}).then(users => res.send(users));
-});
-
-app.get('/showemails', (req, res) => {
-  Email.find({})
-    .then(emails => res.send(emails))
-    .catch(err => res.send(err));
 });
 
 app.get('/getuseremails/:userid', (req, res) => {
@@ -91,15 +79,6 @@ app.post('/saveemail/:id', (req, res) => {
       .then(res.send('Email updated successfully.'))
       .catch(err => console.log(err))
 })
-
-app.delete('/deleteallusers', (req, res) => {
-  User.deleteMany({}).then(res.send('all users delete. database empty'));
-});
-
-app.delete('/deleteallemails', (req, res) => {
-  Email.deleteMany({}).then(res.send('all emails delete. database empty'));
-});
-
 
 app.post('/register', (req, res) => {
   const today = new Date();
