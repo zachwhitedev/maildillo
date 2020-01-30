@@ -116,28 +116,27 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  User.findOne({
-    email: req.body.email
-  })
-    .then(user => {
-      if (user) {
-        if (bcrypt.compareSync(req.body.password, user.password)) {
-          const payload = {
-            userid: user._id,
-            useremail: user.email
-          };
-          let token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 30 * 60 });
-          res.send(token);
-        } else {
-          res.json({ error: 'Invalid login credentials.' });
-        }
-      } else {
-        res.json({ error: 'User does not exist.' });
-      }
+  try {
+    const user = await User.findOne({
+      email: req.body.email
     })
-    .catch(err => {
-      res.send('error: ' + err);
-    });
+    if (user) {
+      if (bcrypt.compareSync(req.body.password, user.password)) {
+        const payload = {
+          userid: user._id,
+          useremail: user.email
+        };
+        let token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 30 * 60 });
+        res.send(token);
+      } else {
+        res.json({ error: 'Invalid login credentials.' });
+      }
+    } else {
+      res.json({ error: 'User does not exist.' });
+    }
+  } catch {
+    res.send('error: ' + err);
+  }
 });
 
 // app.get('/profile', (req, res) => {
