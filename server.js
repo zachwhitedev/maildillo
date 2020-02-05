@@ -53,12 +53,9 @@ app.delete('/deleteemail/:id', (req, res) => {
 });
 
 app.post('/editemail/:id', (req, res) => {
-  Email.findOneAndUpdate(
-    { _id: req.params.id },
-    { $set: { edit: true } }
-    )
-      .then(res.send('Email being edited.'))
-      .catch(err => console.log(err))
+  Email.findOneAndUpdate({ _id: req.params.id }, { $set: { edit: true } })
+    .then(res.send('Email being edited.'))
+    .catch(err => console.log(err));
 });
 app.post('/addemail', (req, res) => {
   Email.create(req.body)
@@ -74,11 +71,11 @@ app.post('/addemail', (req, res) => {
 app.post('/saveemail/:id', (req, res) => {
   Email.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { "edit": false, "content": req.body.newEmail } }
-    )
-      .then(res.send('Email updated successfully.'))
-      .catch(err => console.log(err))
-})
+    { $set: { edit: false, content: req.body.newEmail } }
+  )
+    .then(res.send('Email updated successfully.'))
+    .catch(err => console.log(err));
+});
 
 app.post('/register', (req, res) => {
   const today = new Date();
@@ -119,14 +116,16 @@ app.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({
       email: req.body.email
-    })
+    });
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         const payload = {
           userid: user._id,
           useremail: user.email
         };
-        let token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 30 * 60 });
+        let token = jwt.sign(payload, process.env.JWT_SECRET, {
+          expiresIn: 30 * 60
+        });
         res.send(token);
       } else {
         res.json({ error: 'Invalid login credentials.' });
@@ -164,26 +163,32 @@ app.post('/login', async (req, res) => {
 
 app.get('/test', (req, res) => {
   User.find({})
-  .stream()
-  .on('data', doc => {
-    console.log(doc.email + ',');
-  })
-  .on('close', () => {
-    console.log('all done.');
-    res.send('All done.');
-  });
+    .stream()
+    .on('data', doc => {
+      console.log(doc.email + ',');
+    })
+    .on('close', () => {
+      console.log('all done.');
+      res.send('All done.');
+    });
 });
 
-const PORT = process.env.PORT || 5000;
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static( 'client/build' ));
-    // app.use('*', express.static('client/build')); // added as per https://stackoverflow.com/questions/45419943/express-react-router-internal-server-error-when-linked-directly
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-    })
+app.get('*', function(req, res) {
+  res.redirect('https://' + req.headers.host + req.url);
 
+  // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+  // res.redirect('https://example.com' + req.url);
+})
+
+const PORT = process.env.PORT || 5000;
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  // app.use('*', express.static('client/build')); // added as per https://stackoverflow.com/questions/45419943/express-react-router-internal-server-error-when-linked-directly
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
 }
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}.`);
-})
+});
