@@ -6,10 +6,14 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const sslRedirect = require('heroku-ssl-redirect');
 
 const app = express();
 dotenv.config();
 const uri = process.env.MONGODB_URI;
+
+// enable ssl redirect
+app.use(sslRedirect());
 
 app.use(bodyParser.json());
 app.use(cors());
